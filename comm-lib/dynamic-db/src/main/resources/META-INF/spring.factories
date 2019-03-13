@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.sou1fy.dyniamic.ddb.DynamicDataSourceConfiguration
