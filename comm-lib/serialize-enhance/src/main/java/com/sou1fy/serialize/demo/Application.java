@@ -9,16 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
@@ -35,11 +34,8 @@ public class Application {
      */
     class MCVConfig implements WebMvcConfigurer {
 
-        @Override
-        public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-            //remove the default serialzier jackson
-            converters.removeIf(converter -> converter instanceof MappingJackson2HttpMessageConverter);
-
+        @Bean
+        public HttpMessageConverter fastJsonHttpMessageConverter() {
             FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
             FastJsonConfig config = new FastJsonConfig();
             config.setSerializerFeatures(
@@ -59,7 +55,13 @@ public class Application {
             converter.setFastJsonConfig(config);
             converter.setDefaultCharset(StandardCharsets.UTF_8);
             converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, new MediaType("application", "*+json")));
-            converters.add(converter);
+            return converter;
+        }
+
+        @Override
+        public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+            // remove the default serialzier jackson
+            // converters.removeIf(converter -> converter instanceof MappingJackson2HttpMessageConverter);
         }
 
         @Override
