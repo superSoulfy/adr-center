@@ -24,7 +24,6 @@ public class Application {
     /**
      * register serializerModifier those you has customized
      */
-
     class MCVConfig implements WebMvcConfigurer {
         @Override
         public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
