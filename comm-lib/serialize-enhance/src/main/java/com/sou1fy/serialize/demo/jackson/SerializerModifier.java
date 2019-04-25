@@ -1,4 +1,4 @@
-package com.sou1fy.serialize.demo;
+package com.sou1fy.serialize.demo.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanDescription;
